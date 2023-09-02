@@ -1,0 +1,75 @@
+#/ Declaracion \#
+
+init {
+    a, a1, b1 : Float
+    variable1 : Int
+    b, p1, p2, p3 : String
+}
+
+#/ asginaciones \#
+a = 99999.99
+a = 99.
+a = .9999
+
+b = "@sdADaSjfla%dfg"
+b = "asldk  fh sjf"
+
+#/ condiciones \#
+if (a > b)
+{
+    write("a es mas grande que b")
+}
+else
+{
+    write("a es mas chico o igual a b")
+}
+
+#/ Ejemplo AND \#
+a = 1
+b = 1
+c = 2
+
+if (a > b & c > b)
+{
+    write("a es mas grande que b y c es mas grande que b")
+}
+
+#/ Ejemplo OR \#
+a = 1
+b = 1
+c = 2
+
+if (a > b || c > b)
+{
+    write("a es mas grande que b o c es mas grande que b")
+}
+
+#/ Ejemplo NOT \#
+a = 1
+b = 1
+c = 2
+
+if (not a > b)
+{
+    write("a no es mas grande que b")
+}
+
+#/ ciclo \#
+a = 1
+b = 3
+
+ciclo (a > b)
+{
+    write("a es mas grande que b")
+    a = a + 1
+}
+
+#/ Entrada y salida \#
+
+read(base) #/ base es una variable \#
+
+write("ewr")  #/ “ewr” es una cte string \#
+write(variable1)  #/ var1 es una variable numérica definida previamente \#
+
+
+
