@@ -62,10 +62,14 @@ OP_COMP         "=="
 OP_MEN_IGU      {OP_MEN}{OP_AS}
 OP_MAY_IGU      {OP_MAY}{OP_AS}
 
+COMMENT         ("//")*
+
 FirstIndexOf    "FirstIndexOf"
 EstaContenido   "EstaContenido"
 
 %%
+
+{COMMENT}       /* se ignora */
 
 {INT}			{printf("\nLexico -->Int: %s\n", yytext);return INT;}
 {FLOAT}         {printf("\nLexico -->Float: %s\n", yytext);return FLOAT;}
