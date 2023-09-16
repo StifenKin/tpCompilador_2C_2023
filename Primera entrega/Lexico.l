@@ -7,7 +7,7 @@
 #include "y.tab.h"
 
 #define MAX_NUM_16_BITS 65536
-#define MAX_CHARACTERS  40
+#define MAX_CHARACTERS  100
 #define LIMIT_FLOAT_INF pow(-1.17549,-38)
 #define LIMIT_FLOAT_SUP pow(3.40282,38)
 
@@ -25,7 +25,7 @@ DIGITO			[0-9]
 LETRA			[a-zA-Z]
 
 CTE		        {DIGITO}+
-CARACTER        [a-z|A-Z|0-9|=|OP_MAY|OP_MEN|!|:|+|\-|*|/|@|.|?]
+CARACTER        [a-z|A-Z|0-9|=|OP_MAY|OP_MEN|!|:|'|"|+|\-|*|/|@|.|%|?]
 CONST_REAL      {DIGITO}+"."{DIGITO}+|{DIGITO}+"."|"."{DIGITO}+
 CONST_STRING    {COMILLA}({CARACTER}+|" ")*{COMILLA}
 ID			    {LETRA}({LETRA}|{DIGITO})*
@@ -41,9 +41,9 @@ LC              "}"
 COMILLA         ["]
 DOS_PUNTOS      [:]
 COMA            [,]
-
-
-
+COMENTARIO_A    "#""/"
+COMENTARIO_I    {COMENTARIO_A}({CARACTER}|" ")*{COMENTARIO_C}
+COMENTARIO_C    "\\""#"
 CICLO           "ciclo"|"CICLO"
 IF              "IF"|"If"|"if"
 ELSE            "else"|"ELSE"|"Else"
@@ -67,21 +67,21 @@ EstaContenido   "EstaContenido"
 
 %%
 
-{INT}			{printf("\nLexico -->Int: %s\n", yytext);return INT;}
-{FLOAT}         {printf("\nLexico -->Float: %s\n", yytext);return FLOAT;}
-{STRING}        {printf("\nLexico -->String: %s\n", yytext);return STRING;}
-{OP_SUM}		{printf("\nLexico -->Suma: %s\n", yytext);return OP_SUM;}
-{OP_AS}			{printf("\nLexico -->Asignacion: %s\n", yytext);return OP_AS;}
-{OP_MUL}		{printf("\nLexico -->Multiplicacion: %s\n", yytext);return OP_MUL;}
-{OP_RES}		{printf("\nLexico -->Resta: %s\n", yytext);return OP_RES;}
-{OP_DIV}		{printf("\nLexico -->Division: %s\n", yytext);return OP_DIV;}
-{PA}			{printf("\nLexico -->ParAbre: %s\n", yytext);return PA;}
-{PC}			{printf("\nLexico -->ParCierra: %s\n", yytext);return PC;}
-{LA}			{printf("\nLexico -->Llave apertura: %s\n", yytext);return LA;}
-{LC}			{printf("\nLexico -->Llave cierre: %s\n", yytext);return LC;}
-{CICLO}         {printf("\nLexico -->Ciclo: %s\n", yytext);return CICLO;}
-{IF}            {printf("\nLexico -->IF: %s\n", yytext);return IF;}
-{ELSE}          {printf("\nLexico -->Else: %s\n", yytext);return ELSE;}
+{INT}			{printf("\nLexico --> Int: %s\n", yytext);return INT;}
+{FLOAT}         {printf("\nLexico --> Float: %s\n", yytext);return FLOAT;}
+{STRING}        {printf("\nLexico --> String: %s\n", yytext);return STRING;}
+{OP_SUM}		{printf("\nLexico --> Suma: %s\n", yytext);return OP_SUM;}
+{OP_AS}			{printf("\nLexico --> Asignacion: %s\n", yytext);return OP_AS;}
+{OP_MUL}		{printf("\nLexico --> Multiplicacion: %s\n", yytext);return OP_MUL;}
+{OP_RES}		{printf("\nLexico --> Resta: %s\n", yytext);return OP_RES;}
+{OP_DIV}		{printf("\nLexico --> Division: %s\n", yytext);return OP_DIV;}
+{PA}			{printf("\nLexico --> ParAbre: %s\n", yytext);return PA;}
+{PC}			{printf("\nLexico --> ParCierra: %s\n", yytext);return PC;}
+{LA}			{printf("\nLexico --> Llave apertura: %s\n", yytext);return LA;}
+{LC}			{printf("\nLexico --> Llave cierre: %s\n", yytext);return LC;}
+{CICLO}         {printf("\nLexico --> Ciclo: %s\n", yytext);return CICLO;}
+{IF}            {printf("\nLexico --> IF: %s\n", yytext);return IF;}
+{ELSE}          {printf("\nLexico --> Else: %s\n", yytext);return ELSE;}
 {INIT}          {printf("\nLexico --> Init: %s\n", yytext);return INIT;}
 {READ}          {printf("\nLexico --> Read: %s\n", yytext);return READ;}
 {WRITE}         {printf("\nLexico --> Write: %s\n", yytext);return WRITE;}
@@ -91,7 +91,9 @@ EstaContenido   "EstaContenido"
 {DOS_PUNTOS}    {printf("\nLexico --> Dos Puntos: %s\n", yytext);return DOS_PUNTOS;}
 {COMA}          {printf("\nLexico --> Coma: %s\n", yytext);return COMA;}
 
-
+{COMENTARIO_A}  {;}
+{COMENTARIO_I}  {;}
+{COMENTARIO_C}  {;}
 
 {OP_MEN}        {printf("\nLexico --> Operador Menor: %s\n", yytext);return OP_MEN;}
 {OP_MAY}        {printf("\nLexico --> Operador Mayor: %s\n", yytext);return OP_MAY;}
@@ -99,11 +101,11 @@ EstaContenido   "EstaContenido"
 {OP_MEN_IGU}    {printf("\nLexico --> Operador Menor Igual: %s\n", yytext);return OP_MEN_IGU;}
 {OP_MAY_IGU}    {printf("\nLexico --> Operador Mayor Igual: %s\n", yytext);return OP_MAY_IGU;}
 
-{FirstIndexOf}           {printf("\nLexico -->FirstIndexOf: %s\n", yytext);return FirstIndexOf;}
-{EstaContenido}           {printf("\nLexico -->EstaContenido: %s\n", yytext);return EstaContenido;}
+{FirstIndexOf}           {printf("\nLexico --> FirstIndexOf: %s\n", yytext);return FirstIndexOf;}
+{EstaContenido}           {printf("\nLexico --> EstaContenido: %s\n", yytext);return EstaContenido;}
 
-{ID}			{printf("\nLexico -->Identificador: %s\n", yytext);yylval.strVal = strdup(yytext);return ID;}
-{CTE}           {printf("\nLexico -->Cte Int: %s\n", yytext);
+{ID}			{printf("\nLexico --> Identificador: %s\n", yytext);yylval.strVal = strdup(yytext);return ID;}
+{CTE}           {printf("\nLexico --> Cte Int: %s\n", yytext);
                     int value = atoi(strdup(yytext));
                     if( value > MAX_NUM_16_BITS ) {
                         printf("\nLexico --> El entero supera los limites permitidos. \n");
@@ -128,12 +130,12 @@ EstaContenido   "EstaContenido"
                         yylval.strVal = strdup(yytext);
                         return CONST_STRING; }}
 
-{COMILLA}       {printf("\nLexico --> Comilla: %s\n", yytext);return COMILLA;}
+{COMILLA}       {printf("\nLexico --> Comilla: %s\n", yytext); return COMILLA;}
 
 "\n"      		
 "\t"
 "\n\t"
 " "             		
 "\r\n"
-.			    { printf( "\nLexico -->ERROR LEXICO : Caracter no reconocido,linea de eror: %s\n", yytext,yylineno ); exit (0);}
+.			    { printf( "\nLexico -->ERROR LEXICO : Caracter no reconocido, linea de error: %s\n", yytext, yylineno ); exit (0);}
 %%
