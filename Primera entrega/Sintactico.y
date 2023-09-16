@@ -35,9 +35,12 @@ extern int yylineno;
 %token <strVal>CONST_STRING
 %token LA
 %token LC
+%token CA
+%token CC
 %token COMILLA
 %token DOS_PUNTOS
 %token COMA
+%token PYC
 %token COMENTARIO_A
 %token COMENTARIO_C
 %token COMENTARIO_I
@@ -58,8 +61,8 @@ extern int yylineno;
 %token OP_COMP
 %token OP_MEN_IGU
 %token OP_MAY_IGU
-%token FirstIndexOf
-%token EstaContenido
+%token FIRSTINDEXOF
+%token ESTACONTENIDO
 %token .
 
 %%
@@ -95,13 +98,21 @@ declaracion:
         }
     };
 
-lista_declaracion:  
+lista_declaracion: 
     lista_declaracion lista_id DOS_PUNTOS tipo {pushStack(&pilaVariables,"*");}
     |lista_id DOS_PUNTOS tipo {pushStack(&pilaVariables,"*");};
 
 lista_id: 
     lista_id COMA ID {pushStack(&pilaVariables,$3);}
     |ID {pushStack(&pilaVariables,$1);};
+
+lista_firstIndex: 
+    lista_firstIndex COMA elemento
+    |elemento
+
+elemento: ID {pushStack(&pilaVariables,$1);}
+    | CONST_REAL {pushStack(&pilaVariables,$1);}
+    | CTE {pushStack(&pilaVariables,$1);}
 
 tipo: 
     INT       {pushStack(&pilaTipoDatoVariable, "INTEGER");}
@@ -124,6 +135,7 @@ if:
 
 condicion:
     comparacion
+    |ESTACONTENIDO PA CONST_STRING COMA CONST_STRING PC
     |condicion AND comparacion
     |condicion OR comparacion;
     |NOT comparacion;
@@ -140,6 +152,7 @@ comparador:
 
 expresion:
     termino {printf("Termino es Expresion\n");}
+    |FIRSTINDEXOF PA ID PYC CA lista_firstIndex CC PC {printf("FIRSTINDEXOF es Expresion\n");}
 	|expresion OP_SUM termino {printf("Expresion + Termino es Expresion\n");}
 	|expresion OP_RES termino {printf("Expresion - Termino es Expresion\n");};
 

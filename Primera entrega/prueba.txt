@@ -71,5 +71,23 @@ read(base) #/ base es una variable \#
 write("texto")  #/ "texto" es una cte string \#
 write(variable1)  #/ var1 es una variable numerica definida previamente \#
 
+#/ EstaContenido \#
+if(EstaContenido("Homplato", "plato")) 
+{
+    write("Esta contenido")
+} 
+else
+{
+    write("No esta contenido")
+}
 
+#/ FirstIndexOf \#
+z=0
+x=0
+a=4
+b=2
+x=7
+C=6
+
+x = FirstIndexOf(a; [1,b,4,5,z,C]) #/ x = 2 ya que a == b es verdadero y es la primer coincidencia de la lista \#
 

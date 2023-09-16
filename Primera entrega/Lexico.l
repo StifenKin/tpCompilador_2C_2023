@@ -38,9 +38,12 @@ PA			    "("
 PC			    ")"
 LA              "{"
 LC              "}"
+CA              "["
+CC              "]"
 COMILLA         ["]
 DOS_PUNTOS      [:]
 COMA            [,]
+PYC             ";"
 COMENTARIO_A    "#""/"
 COMENTARIO_I    {COMENTARIO_A}({CARACTER}|" ")*{COMENTARIO_C}
 COMENTARIO_C    "\\""#"
@@ -62,8 +65,9 @@ OP_COMP         "=="
 OP_MEN_IGU      {OP_MEN}{OP_AS}
 OP_MAY_IGU      {OP_MAY}{OP_AS}
 
-FirstIndexOf    "FirstIndexOf"
-EstaContenido   "EstaContenido"
+FIRSTINDEXOF    "FirstIndexOf"|"FIRSTINDEXOF"
+ESTACONTENIDO   "EstaContenido"|"ESTACONTENIDO" 
+
 
 %%
 
@@ -79,6 +83,8 @@ EstaContenido   "EstaContenido"
 {PC}			{printf("\nLexico --> ParCierra: %s\n", yytext);return PC;}
 {LA}			{printf("\nLexico --> Llave apertura: %s\n", yytext);return LA;}
 {LC}			{printf("\nLexico --> Llave cierre: %s\n", yytext);return LC;}
+{CA}			{printf("\nLexico --> Corchete apertura: %s\n", yytext);return CA;}
+{CC}			{printf("\nLexico --> Corchete cierre: %s\n", yytext);return CC;}
 {CICLO}         {printf("\nLexico --> Ciclo: %s\n", yytext);return CICLO;}
 {IF}            {printf("\nLexico --> IF: %s\n", yytext);return IF;}
 {ELSE}          {printf("\nLexico --> Else: %s\n", yytext);return ELSE;}
@@ -90,6 +96,7 @@ EstaContenido   "EstaContenido"
 {NOT}           {printf("\nLexico --> Not: %s\n", yytext);return NOT;}
 {DOS_PUNTOS}    {printf("\nLexico --> Dos Puntos: %s\n", yytext);return DOS_PUNTOS;}
 {COMA}          {printf("\nLexico --> Coma: %s\n", yytext);return COMA;}
+{PYC}          {printf("\nLexico --> Punto y coma: %s\n", yytext);return PYC;}
 
 {COMENTARIO_A}  {;}
 {COMENTARIO_I}  {;}
@@ -101,8 +108,8 @@ EstaContenido   "EstaContenido"
 {OP_MEN_IGU}    {printf("\nLexico --> Operador Menor Igual: %s\n", yytext);return OP_MEN_IGU;}
 {OP_MAY_IGU}    {printf("\nLexico --> Operador Mayor Igual: %s\n", yytext);return OP_MAY_IGU;}
 
-{FirstIndexOf}           {printf("\nLexico --> FirstIndexOf: %s\n", yytext);return FirstIndexOf;}
-{EstaContenido}           {printf("\nLexico --> EstaContenido: %s\n", yytext);return EstaContenido;}
+{FIRSTINDEXOF}  {printf("\nLexico --> FirstIndexOf: %s\n", yytext);return FIRSTINDEXOF;}
+{ESTACONTENIDO} {printf("\nLexico --> EstaContenido: %s\n", yytext);return ESTACONTENIDO;}
 
 {ID}			{printf("\nLexico --> Identificador: %s\n", yytext);yylval.strVal = strdup(yytext);return ID;}
 {CTE}           {printf("\nLexico --> Cte Int: %s\n", yytext);
